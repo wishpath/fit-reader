@@ -1,7 +1,9 @@
 package org.sa;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -10,7 +12,17 @@ import java.util.List;
 
 public class FileUtil {
 
-  public static byte[] loadSingleFitFile() throws Exception {
+  public static byte[] loadSingleFitFile() {
+    try {
+      File fitFile = getFitFile();
+      System.out.println("Reading: " + fitFile.getName());
+      return Files.readAllBytes(fitFile.toPath());
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private static File getFitFile() throws IOException, URISyntaxException {
     List<File> fitFiles = new ArrayList<>();
 
     Enumeration<URL> roots = Thread.currentThread()
@@ -31,7 +43,23 @@ public class FileUtil {
     }
 
     File fitFile = fitFiles.get(0);
-    System.out.println("Reading: " + fitFile.getName());
-    return Files.readAllBytes(fitFile.toPath());
+    return fitFile;
+  }
+
+  public static File createEmptyOutputFile(String s) {
+    File outputDir = new File("output");
+    if (!outputDir.exists()) {
+      outputDir.mkdirs();
+    }
+    File outputFile = new File(outputDir, s);
+    return outputFile;
+  }
+
+  public static String getSingleFitFileName() {
+    try {
+      return getFitFile().getName();
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
   }
 }

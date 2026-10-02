@@ -1,6 +1,7 @@
 package org.sa;
 
 import java.time.Duration;
+import java.time.Instant;
 
 public class TimeUtil {
   public static Duration parseDuration(String text) {
@@ -29,4 +30,12 @@ public class TimeUtil {
           "Could not parse duration '" + text + "'. Expected 'HH:mm:ss', 'mm:ss', or seconds.");
     }
   }
+
+  /**
+   returns a standard Unix timestamp—the total number of seconds elapsed since January 1, 1970 00:00:00 UTC
+  */
+  public static long toEpochSecond(Instant startTime, String offsetText) {
+    return startTime.plus(TimeUtil.parseDuration(offsetText)).getEpochSecond();
+  }
+
 }
