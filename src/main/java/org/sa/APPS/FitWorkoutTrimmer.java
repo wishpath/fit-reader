@@ -12,8 +12,8 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Entry point that trims a workout by start/end times relative to the beginning
- * and saves a new .fit file to output directory.
+ * Trims a workout by start/end times relative to the beginning
+ * saves a new .fit file to output directory.
  */
 public class FitWorkoutTrimmer {
   private static final String TRIM_START = "00:00:00";
